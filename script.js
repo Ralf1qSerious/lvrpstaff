@@ -27,7 +27,7 @@ const commandPalette = document.getElementById("commandPalette");
 const commandInput = document.getElementById("commandInput");
 const commandList = document.getElementById("commandList");
 
-let STAFF_PIN = localStorage.getItem("lvrpPin") || "1234";
+let STAFF_PIN = localStorage.getItem("lvrpPin") || "lvrpstaff";
 
 let notes = JSON.parse(localStorage.getItem("lvrpStaffNotes")) || [];
 let activeNoteId = null;

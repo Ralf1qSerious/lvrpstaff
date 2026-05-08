@@ -6,71 +6,31 @@
 
   <title>LVRP Staff Notepad</title>
 
-  <!-- Browser tab icon -->
   <link rel="icon" type="image/png" href="assets/gta-v-logo.png" />
   <link rel="apple-touch-icon" href="assets/gta-v-logo.png" />
 
-  <!-- Discord / Open Graph -->
   <meta property="og:title" content="LVRP Staff Notepad" />
-  <meta
-    property="og:description"
-    content="Private staff notepad for LVRP staff members."
-  />
+  <meta property="og:description" content="Private staff notepad for LVRP staff members." />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://lvrpstaff.online/assets/gta-v-logo.png" />
+  <meta property="og:url" content="https://lvrpstaff.online/" />
 
-  <meta
-    property="og:image"
-    content="https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPO-NAME/assets/gta-v-logo.png"
-  />
-
-  <meta
-    property="og:url"
-    content="https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPO-NAME/"
-  />
-
-  <!-- X / Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-
-  <meta
-    name="twitter:title"
-    content="LVRP Staff Notepad"
-  />
-
-  <meta
-    name="twitter:description"
-    content="Private staff notepad for LVRP staff members."
-  />
-
-  <meta
-    name="twitter:image"
-    content="https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPO-NAME/assets/gta-v-logo.png"
-  />
+  <meta name="twitter:title" content="LVRP Staff Notepad" />
+  <meta name="twitter:description" content="Private staff notepad for LVRP staff members." />
+  <meta name="twitter:image" content="https://lvrpstaff.online/assets/gta-v-logo.png" />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
   <section id="lockScreen" class="lock-screen">
     <div class="lock-card">
       <img src="assets/gta-v-logo.png" alt="GTA V Logo" />
-
       <h1>LVRP Staff</h1>
-
       <p>Enter PIN to open notepad</p>
-
-      <input
-        id="pinInput"
-        type="password"
-        placeholder="PIN"
-      />
-
-      <button id="unlockBtn">
-        Unlock
-      </button>
-
-      <small>
-        Default PIN: lvrpstaff
-      </small>
+      <input id="pinInput" type="password" placeholder="PIN" />
+      <button id="unlockBtn">Unlock</button>
+      <small>Default PIN: 1234</small>
     </div>
   </section>
 
@@ -78,134 +38,56 @@
 
   <main class="app hidden" id="app">
     <header class="fade-in">
-      <img
-        src="assets/gta-v-logo.png"
-        alt="GTA V Logo"
-        class="logo"
-      />
+      <img src="assets/gta-v-logo.png" alt="GTA V Logo" class="logo" />
 
       <div>
-        <span class="badge">
-          LVRP STAFF
-        </span>
-
-        <h1>
-          Staff Notepad
-        </h1>
-
-        <p>
-          Auto-saved private notes for staff use.
-        </p>
+        <span class="badge">LVRP STAFF</span>
+        <h1>Staff Notepad</h1>
+        <p>Auto-saved private notes for staff use.</p>
       </div>
 
       <div class="staff-panel">
-        <div id="liveClock">
-          00:00:00
-        </div>
-
-        <button
-          id="dutyToggle"
-          class="status-btn off"
-        >
-          Off Duty
-        </button>
+        <div id="liveClock">00:00:00</div>
+        <button id="dutyToggle" class="status-btn off">Off Duty</button>
       </div>
     </header>
 
-    <section
-      class="toolbar fade-in delay-1"
-    >
-      <button id="newNote">
-        + New
-      </button>
-
-      <button id="saveNote">
-        Save
-      </button>
-
-      <button id="templateBtn">
-        Sodāmība Template
-      </button>
-
-      <button id="pinNote">
-        Pin
-      </button>
-
-      <button id="themeToggle">
-        Theme
-      </button>
-
-      <button id="changePinBtn">
-        Change PIN
-      </button>
-
-      <button id="lockBtn">
-        Lock
-      </button>
-
-      <button
-        id="deleteNote"
-        class="danger"
-      >
-        Delete
-      </button>
+    <section class="toolbar fade-in delay-1">
+      <button id="newNote">+ New</button>
+      <button id="saveNote">Save</button>
+      <button id="shareNote">Share Link</button>
+      <button id="templateBtn">Sodāmība Template</button>
+      <button id="pinNote">Pin</button>
+      <button id="themeToggle">Theme</button>
+      <button id="changePinBtn">Change PIN</button>
+      <button id="lockBtn">Lock</button>
+      <button id="deleteNote" class="danger">Delete</button>
     </section>
 
-    <section
-      class="workspace fade-in delay-2"
-    >
+    <section class="workspace fade-in delay-2">
       <aside class="panel">
-        <input
-          id="searchInput"
-          placeholder="Search notes..."
-        />
-
-        <h2>
-          Notes
-        </h2>
-
+        <input id="searchInput" placeholder="Search notes..." />
+        <h2>Notes</h2>
         <div id="notesList"></div>
       </aside>
 
       <section class="editor panel">
-        <input
-          id="noteTitle"
-          placeholder="Note title..."
-        />
-
-        <textarea
-          id="noteBody"
-          placeholder="Write staff notes here..."
-        ></textarea>
+        <input id="noteTitle" placeholder="Note title..." />
+        <textarea id="noteBody" placeholder="Write staff notes here..."></textarea>
 
         <div class="meta">
-          <span id="createdAt">
-            Created: —
-          </span>
-
-          <span id="updatedAt">
-            Updated: —
-          </span>
+          <span id="createdAt">Created: —</span>
+          <span id="updatedAt">Updated: —</span>
         </div>
 
-        <p id="status">
-          Ready
-        </p>
+        <p id="status">Ready</p>
       </section>
     </section>
   </main>
 
-  <div
-    id="commandPalette"
-    class="palette hidden"
-  >
+  <div id="commandPalette" class="palette hidden">
     <div class="palette-box">
-      <input
-        id="commandInput"
-        placeholder="Search commands..."
-        autocomplete="off"
-      />
-
+      <input id="commandInput" placeholder="Search commands..." autocomplete="off" />
       <div id="commandList"></div>
     </div>
   </div>

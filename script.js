@@ -13,6 +13,7 @@ const updatedAtText = document.getElementById("updatedAt");
 
 const newNoteBtn = document.getElementById("newNote");
 const saveNoteBtn = document.getElementById("saveNote");
+const shareNoteBtn = document.getElementById("shareNote");
 const templateBtn = document.getElementById("templateBtn");
 const deleteNoteBtn = document.getElementById("deleteNote");
 const pinNoteBtn = document.getElementById("pinNote");
@@ -27,7 +28,7 @@ const commandPalette = document.getElementById("commandPalette");
 const commandInput = document.getElementById("commandInput");
 const commandList = document.getElementById("commandList");
 
-let STAFF_PIN = localStorage.getItem("lvrpPin") || "lvrpstaff";
+let STAFF_PIN = localStorage.getItem("lvrpPin") || "1234";
 
 let notes = JSON.parse(localStorage.getItem("lvrpStaffNotes")) || [];
 let activeNoteId = null;
@@ -44,6 +45,7 @@ function unlock() {
     localStorage.setItem("lvrpUnlocked", "true");
     pinInput.value = "";
     resetIdleTimer();
+    importSharedNote();
     setStatus("Unlocked");
   } else {
     pinInput.value = "";
@@ -125,6 +127,78 @@ Iespējamā sodāmība:
 
   saveNote(false);
   setStatus("Sodāmība template created");
+}
+
+function encodeNoteForShare() {
+  const title = noteTitle.value.trim();
+  const body = noteBody.value.trim();
+
+  if (!title && !body) {
+    setStatus("Nothing to share");
+    return null;
+  }
+
+  const payload = {
+    title: title || "Untitled Note",
+    body,
+    sharedAt: new Date().toISOString()
+  };
+
+  return btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+}
+
+async function shareNoteLink() {
+  const encoded = encodeNoteForShare();
+  if (!encoded) return;
+
+  const shareUrl = `${window.location.origin}${window.location.pathname}?share=${encoded}`;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: "LVRP Staff Note",
+        text: "Shared LVRP staff note",
+        url: shareUrl
+      });
+
+      setStatus("Share link opened");
+      return;
+    } catch {
+      setStatus("Share cancelled");
+    }
+  }
+
+  try {
+    await navigator.clipboard.writeText(shareUrl);
+    setStatus("Share link copied");
+  } catch {
+    prompt("Copy this share link:", shareUrl);
+  }
+}
+
+function importSharedNote() {
+  const params = new URLSearchParams(window.location.search);
+  const encoded = params.get("share");
+
+  if (!encoded) return;
+
+  try {
+    const data = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+
+    const shouldImport = confirm("Import shared note into your notepad?");
+    if (!shouldImport) return;
+
+    activeNoteId = null;
+    noteTitle.value = data.title || "Shared Note";
+    noteBody.value = data.body || "";
+
+    saveNote(false);
+    setStatus("Shared note imported");
+
+    history.replaceState({}, "", window.location.pathname);
+  } catch {
+    setStatus("Invalid share link");
+  }
 }
 
 function getFilteredNotes() {
@@ -346,6 +420,10 @@ const commands = [
     action: () => saveNote(false)
   },
   {
+    name: "Share Note Link",
+    action: shareNoteLink
+  },
+  {
     name: "Sodāmība Template",
     action: insertSodamibaTemplate
   },
@@ -433,6 +511,7 @@ pinInput.addEventListener("keydown", event => {
 
 newNoteBtn.addEventListener("click", newNote);
 saveNoteBtn.addEventListener("click", () => saveNote(false));
+shareNoteBtn.addEventListener("click", shareNoteLink);
 templateBtn.addEventListener("click", insertSodamibaTemplate);
 deleteNoteBtn.addEventListener("click", deleteNote);
 pinNoteBtn.addEventListener("click", togglePin);
@@ -491,4 +570,5 @@ if (localStorage.getItem("lvrpUnlocked") === "true") {
   lockScreen.classList.add("hidden");
   app.classList.remove("hidden");
   resetIdleTimer();
+  importSharedNote();
 }
